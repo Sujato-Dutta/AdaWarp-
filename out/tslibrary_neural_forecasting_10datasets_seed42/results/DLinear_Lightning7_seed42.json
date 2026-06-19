@@ -1,0 +1,140 @@
+{
+  "dataset": "Lightning7",
+  "architecture": "tslibrary_dlinear_class_conditioned_prefix_windows",
+  "model": "DLinear",
+  "seed": 42,
+  "observed_fraction": 0.8,
+  "data_source": "clean-ucr",
+  "num_trajectories": 70,
+  "num_classes": 7,
+  "seq_len": 96,
+  "pred_len": 64,
+  "elapsed_seconds": 3.9599215984344482,
+  "device": "cpu",
+  "metrics_macro": {
+    "rmse": 1.3745359283628782,
+    "mae": 1.1973697206892548
+  },
+  "metrics_per_class": [
+    {
+      "class_index": 0,
+      "label": "0",
+      "num_trajectories": 8,
+      "rmse": 0.6315494067737496,
+      "mae": 0.5546071589567281
+    },
+    {
+      "class_index": 1,
+      "label": "1",
+      "num_trajectories": 8,
+      "rmse": 0.6237827219345886,
+      "mae": 0.4608867929485133
+    },
+    {
+      "class_index": 2,
+      "label": "2",
+      "num_trajectories": 8,
+      "rmse": 3.6147448019610895,
+      "mae": 3.4068115230338485
+    },
+    {
+      "class_index": 3,
+      "label": "3",
+      "num_trajectories": 12,
+      "rmse": 1.9374364121034902,
+      "mae": 1.6984135803836546
+    },
+    {
+      "class_index": 4,
+      "label": "4",
+      "num_trajectories": 5,
+      "rmse": 0.23235916610247115,
+      "mae": 0.16765140498928716
+    },
+    {
+      "class_index": 5,
+      "label": "5",
+      "num_trajectories": 19,
+      "rmse": 1.3087376601235963,
+      "mae": 1.0736553995745122
+    },
+    {
+      "class_index": 6,
+      "label": "6",
+      "num_trajectories": 10,
+      "rmse": 1.2731413295411627,
+      "mae": 1.0195621849382408
+    }
+  ],
+  "class_training": [
+    {
+      "class_index": 0,
+      "label": "0",
+      "num_trajectories": 8,
+      "num_windows": 768,
+      "final_training_mse": 3.011918544769287
+    },
+    {
+      "class_index": 1,
+      "label": "1",
+      "num_trajectories": 8,
+      "num_windows": 768,
+      "final_training_mse": 3.68189545472463
+    },
+    {
+      "class_index": 2,
+      "label": "2",
+      "num_trajectories": 8,
+      "num_windows": 768,
+      "final_training_mse": 1.329587072134018
+    },
+    {
+      "class_index": 3,
+      "label": "3",
+      "num_trajectories": 12,
+      "num_windows": 1152,
+      "final_training_mse": 3.8710896836386786
+    },
+    {
+      "class_index": 4,
+      "label": "4",
+      "num_trajectories": 5,
+      "num_windows": 480,
+      "final_training_mse": 3.423454165458679
+    },
+    {
+      "class_index": 5,
+      "label": "5",
+      "num_trajectories": 19,
+      "num_windows": 1824,
+      "final_training_mse": 2.779753668554898
+    },
+    {
+      "class_index": 6,
+      "label": "6",
+      "num_trajectories": 10,
+      "num_windows": 960,
+      "final_training_mse": 0.6088890194892883
+    }
+  ],
+  "settings": {
+    "epochs": 10,
+    "batch_size": 64,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0,
+    "moving_avg": 25,
+    "max_seq_len": 96,
+    "max_windows_per_trajectory": 256,
+    "patch_len": 16,
+    "patch_stride": 8,
+    "d_model": 128,
+    "n_heads": 8,
+    "e_layers": 3,
+    "d_ff": 256,
+    "factor": 3,
+    "dropout": 0.1,
+    "activation": "gelu"
+  },
+  "resolved_patch_shape": null,
+  "protocol": "One TSLibrary DLinear model per known class. Inputs and targets are sliding windows fully contained within each observed prefix; final evaluation suffixes are untouched until scoring."
+}

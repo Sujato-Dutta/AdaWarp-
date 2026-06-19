@@ -1,0 +1,143 @@
+{
+  "dataset": "Lightning7",
+  "architecture": "tslibrary_patchtst_class_conditioned_prefix_windows",
+  "model": "PatchTST",
+  "seed": 42,
+  "observed_fraction": 0.8,
+  "data_source": "clean-ucr",
+  "num_trajectories": 70,
+  "num_classes": 7,
+  "seq_len": 96,
+  "pred_len": 64,
+  "elapsed_seconds": 192.73856163024902,
+  "device": "cpu",
+  "metrics_macro": {
+    "rmse": 2.0136839620177818,
+    "mae": 1.5771985319172241
+  },
+  "metrics_per_class": [
+    {
+      "class_index": 0,
+      "label": "0",
+      "num_trajectories": 8,
+      "rmse": 0.6202679996381328,
+      "mae": 0.5309403888770218
+    },
+    {
+      "class_index": 1,
+      "label": "1",
+      "num_trajectories": 8,
+      "rmse": 0.5615816230272096,
+      "mae": 0.4055626812676995
+    },
+    {
+      "class_index": 2,
+      "label": "2",
+      "num_trajectories": 8,
+      "rmse": 3.4407257311389974,
+      "mae": 2.8558670638340544
+    },
+    {
+      "class_index": 3,
+      "label": "3",
+      "num_trajectories": 12,
+      "rmse": 4.895060705475977,
+      "mae": 3.4862035412245187
+    },
+    {
+      "class_index": 4,
+      "label": "4",
+      "num_trajectories": 5,
+      "rmse": 0.1907295900095543,
+      "mae": 0.1461112455544063
+    },
+    {
+      "class_index": 5,
+      "label": "5",
+      "num_trajectories": 19,
+      "rmse": 3.1043432426522126,
+      "mae": 2.6157196110893524
+    },
+    {
+      "class_index": 6,
+      "label": "6",
+      "num_trajectories": 10,
+      "rmse": 1.283078842182386,
+      "mae": 0.9999851915735164
+    }
+  ],
+  "class_training": [
+    {
+      "class_index": 0,
+      "label": "0",
+      "num_trajectories": 8,
+      "num_windows": 768,
+      "final_training_mse": 4.164538403352101
+    },
+    {
+      "class_index": 1,
+      "label": "1",
+      "num_trajectories": 8,
+      "num_windows": 768,
+      "final_training_mse": 4.2148226499557495
+    },
+    {
+      "class_index": 2,
+      "label": "2",
+      "num_trajectories": 8,
+      "num_windows": 768,
+      "final_training_mse": 1.199139689405759
+    },
+    {
+      "class_index": 3,
+      "label": "3",
+      "num_trajectories": 12,
+      "num_windows": 1152,
+      "final_training_mse": 3.1484692891438804
+    },
+    {
+      "class_index": 4,
+      "label": "4",
+      "num_trajectories": 5,
+      "num_windows": 480,
+      "final_training_mse": 3.3149077594280243
+    },
+    {
+      "class_index": 5,
+      "label": "5",
+      "num_trajectories": 19,
+      "num_windows": 1824,
+      "final_training_mse": 2.0495725829025795
+    },
+    {
+      "class_index": 6,
+      "label": "6",
+      "num_trajectories": 10,
+      "num_windows": 960,
+      "final_training_mse": 0.5087730169296265
+    }
+  ],
+  "settings": {
+    "epochs": 10,
+    "batch_size": 64,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0,
+    "moving_avg": 25,
+    "max_seq_len": 96,
+    "max_windows_per_trajectory": 256,
+    "patch_len": 16,
+    "patch_stride": 8,
+    "d_model": 128,
+    "n_heads": 8,
+    "e_layers": 3,
+    "d_ff": 256,
+    "factor": 3,
+    "dropout": 0.1,
+    "activation": "gelu"
+  },
+  "resolved_patch_shape": [
+    16,
+    8
+  ],
+  "protocol": "One TSLibrary PatchTST model per known class. Inputs and targets are sliding windows fully contained within each observed prefix; final evaluation suffixes are untouched until scoring."
+}

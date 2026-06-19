@@ -1,0 +1,3 @@
+model,dataset,num_seeds,rmse_mean,rmse_std,mae_mean,mae_std,seeds
+PatchTST,HouseTwenty,1,418.3448732508929,0.0,313.8162439996472,0.0,42
+PatchTST,InsectEPGRegularTrain,1,0.027697349028337426,0.0,0.024178722184504595,0.0,42

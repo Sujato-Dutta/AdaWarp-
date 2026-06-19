@@ -1,0 +1,84 @@
+{
+  "dataset": "InsectEPGRegularTrain",
+  "architecture": "tslibrary_dlinear_class_conditioned_prefix_windows",
+  "model": "DLinear",
+  "seed": 42,
+  "observed_fraction": 0.8,
+  "data_source": "clean-ucr",
+  "num_trajectories": 62,
+  "num_classes": 3,
+  "seq_len": 96,
+  "pred_len": 121,
+  "elapsed_seconds": 11.963183164596558,
+  "device": "cpu",
+  "metrics_macro": {
+    "rmse": 0.031406520419188504,
+    "mae": 0.027608116000123233
+  },
+  "metrics_per_class": [
+    {
+      "class_index": 0,
+      "label": "1",
+      "num_trajectories": 22,
+      "rmse": 0.038325812464218956,
+      "mae": 0.035034710026691465
+    },
+    {
+      "class_index": 1,
+      "label": "2",
+      "num_trajectories": 30,
+      "rmse": 0.03236146430838267,
+      "mae": 0.02745153513348169
+    },
+    {
+      "class_index": 2,
+      "label": "3",
+      "num_trajectories": 10,
+      "rmse": 0.023532284484963868,
+      "mae": 0.02033810284019654
+    }
+  ],
+  "class_training": [
+    {
+      "class_index": 0,
+      "label": "1",
+      "num_trajectories": 22,
+      "num_windows": 5632,
+      "final_training_mse": 0.00027954029230221005
+    },
+    {
+      "class_index": 1,
+      "label": "2",
+      "num_trajectories": 30,
+      "num_windows": 7680,
+      "final_training_mse": 0.00032806080186370914
+    },
+    {
+      "class_index": 2,
+      "label": "3",
+      "num_trajectories": 10,
+      "num_windows": 2560,
+      "final_training_mse": 0.00013399317431321832
+    }
+  ],
+  "settings": {
+    "epochs": 10,
+    "batch_size": 64,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0,
+    "moving_avg": 25,
+    "max_seq_len": 96,
+    "max_windows_per_trajectory": 256,
+    "patch_len": 16,
+    "patch_stride": 8,
+    "d_model": 128,
+    "n_heads": 8,
+    "e_layers": 3,
+    "d_ff": 256,
+    "factor": 3,
+    "dropout": 0.1,
+    "activation": "gelu"
+  },
+  "resolved_patch_shape": null,
+  "protocol": "One TSLibrary DLinear model per known class. Inputs and targets are sliding windows fully contained within each observed prefix; final evaluation suffixes are untouched until scoring."
+}

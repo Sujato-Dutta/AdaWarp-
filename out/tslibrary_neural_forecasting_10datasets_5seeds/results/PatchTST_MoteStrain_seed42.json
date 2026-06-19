@@ -1,0 +1,73 @@
+{
+  "dataset": "MoteStrain",
+  "architecture": "tslibrary_patchtst_class_conditioned_prefix_windows",
+  "model": "PatchTST",
+  "seed": 42,
+  "observed_fraction": 0.8,
+  "data_source": "clean-ucr",
+  "num_trajectories": 20,
+  "num_classes": 2,
+  "seq_len": 33,
+  "pred_len": 17,
+  "elapsed_seconds": 3.7080888748168945,
+  "device": "cpu",
+  "metrics_macro": {
+    "rmse": 0.9270954182424399,
+    "mae": 0.6792454771720465
+  },
+  "metrics_per_class": [
+    {
+      "class_index": 0,
+      "label": "1",
+      "num_trajectories": 10,
+      "rmse": 0.8690671784299344,
+      "mae": 0.5936923389223252
+    },
+    {
+      "class_index": 1,
+      "label": "2",
+      "num_trajectories": 10,
+      "rmse": 0.9851236580549454,
+      "mae": 0.7647986154217679
+    }
+  ],
+  "class_training": [
+    {
+      "class_index": 0,
+      "label": "1",
+      "num_trajectories": 10,
+      "num_windows": 180,
+      "final_training_mse": 0.2618572612603505
+    },
+    {
+      "class_index": 1,
+      "label": "2",
+      "num_trajectories": 10,
+      "num_windows": 180,
+      "final_training_mse": 0.7035911281903585
+    }
+  ],
+  "settings": {
+    "epochs": 10,
+    "batch_size": 64,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0,
+    "moving_avg": 25,
+    "max_seq_len": 96,
+    "max_windows_per_trajectory": 256,
+    "patch_len": 16,
+    "patch_stride": 8,
+    "d_model": 128,
+    "n_heads": 8,
+    "e_layers": 3,
+    "d_ff": 256,
+    "factor": 3,
+    "dropout": 0.1,
+    "activation": "gelu"
+  },
+  "resolved_patch_shape": [
+    16,
+    8
+  ],
+  "protocol": "One TSLibrary PatchTST model per known class. Inputs and targets are sliding windows fully contained within each observed prefix; final evaluation suffixes are untouched until scoring."
+}

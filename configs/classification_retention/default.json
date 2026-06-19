@@ -1,0 +1,37 @@
+{
+  "name": "AdaWarp classification retention matched reruns",
+  "datasets": [
+    "PDSetting1",
+    "PDSetting2",
+    "PronunciationAudio",
+    "ECGFiveDays",
+    "FreezerSmallTrain",
+    "HouseTwenty",
+    "InsectEPGRegularTrain",
+    "ItalyPowerDemand",
+    "Lightning7",
+    "MoteStrain",
+    "PowerCons",
+    "SonyAIBORobotSurface2",
+    "UWaveGestureLibraryAll"
+  ],
+  "seeds": [42, 43, 44, 45, 46],
+  "matched_models": [
+    "AdaWarp",
+    "Motion Code",
+    "Informer",
+    "Autoformer",
+    "FEDformer",
+    "ETSformer",
+    "LightTS",
+    "PatchTST",
+    "Crossformer",
+    "DLinear",
+    "TimesNet",
+    "iTransformer",
+    "Mamba"
+  ],
+  "external_required_models": ["MiniROCKET", "MultiROCKET", "Hydra", "InceptionTime"],
+  "metrics": ["accuracy", "win_tie_loss", "paired_mean_difference", "mean_rank"],
+  "notes": "Classification is a retained capability check. TSLibrary models are rerun by scripts/tacc/run_tslibrary_classification.py; old retained local result folders are not final evidence. MiniROCKET, MultiROCKET, Hydra, and InceptionTime must come from real aeon/sktime implementations or be audited as missing."
+}

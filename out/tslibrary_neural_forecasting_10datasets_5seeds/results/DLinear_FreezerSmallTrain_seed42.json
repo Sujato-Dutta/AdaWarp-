@@ -1,0 +1,70 @@
+{
+  "dataset": "FreezerSmallTrain",
+  "architecture": "tslibrary_dlinear_class_conditioned_prefix_windows",
+  "model": "DLinear",
+  "seed": 42,
+  "observed_fraction": 0.8,
+  "data_source": "clean-ucr",
+  "num_trajectories": 28,
+  "num_classes": 2,
+  "seq_len": 96,
+  "pred_len": 61,
+  "elapsed_seconds": 1.2586188316345215,
+  "device": "cpu",
+  "metrics_macro": {
+    "rmse": 0.9992359298090515,
+    "mae": 0.8260690477334319
+  },
+  "metrics_per_class": [
+    {
+      "class_index": 0,
+      "label": "1",
+      "num_trajectories": 14,
+      "rmse": 1.3038178894934926,
+      "mae": 1.1916037074269703
+    },
+    {
+      "class_index": 1,
+      "label": "2",
+      "num_trajectories": 14,
+      "rmse": 0.6946539701246104,
+      "mae": 0.4605343880398935
+    }
+  ],
+  "class_training": [
+    {
+      "class_index": 0,
+      "label": "1",
+      "num_trajectories": 14,
+      "num_windows": 1176,
+      "final_training_mse": 0.33444135361596156
+    },
+    {
+      "class_index": 1,
+      "label": "2",
+      "num_trajectories": 14,
+      "num_windows": 1176,
+      "final_training_mse": 0.24947726255968997
+    }
+  ],
+  "settings": {
+    "epochs": 10,
+    "batch_size": 64,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0,
+    "moving_avg": 25,
+    "max_seq_len": 96,
+    "max_windows_per_trajectory": 256,
+    "patch_len": 16,
+    "patch_stride": 8,
+    "d_model": 128,
+    "n_heads": 8,
+    "e_layers": 3,
+    "d_ff": 256,
+    "factor": 3,
+    "dropout": 0.1,
+    "activation": "gelu"
+  },
+  "resolved_patch_shape": null,
+  "protocol": "One TSLibrary DLinear model per known class. Inputs and targets are sliding windows fully contained within each observed prefix; final evaluation suffixes are untouched until scoring."
+}

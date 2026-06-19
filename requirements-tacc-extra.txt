@@ -1,0 +1,24 @@
+# Extra packages for TACC runs.  Intentionally excludes torch, numpy,
+# tensorflow, and jax so cluster-provided accelerator stacks are not replaced.
+pandas
+scipy
+scikit-learn
+statsmodels
+tbats
+sktime
+tqdm
+einops
+local-attention
+reformer-pytorch
+matplotlib
+patool
+sympy
+
+# Optional modern TSC reruns:
+# - MiniROCKET/MultiROCKET/Hydra usually require aeon or compatible sktime
+#   classifiers.
+# - InceptionTime usually requires TensorFlow/Keras.
+# - Original Motion Code matched reruns require jax/jaxlib.
+# - TSLibrary's Mamba classifier requires mamba_ssm.
+# Install these only after checking TACC module compatibility; do not let pip
+# replace cluster-provided torch/numpy/cuda stacks.

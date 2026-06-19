@@ -1,0 +1,92 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# mkdocs documentation
+/site
+
+# Exe file
+*.exe
+
+# Data files
+data/*
+!.gitkeep
+TSLibrary/dataset/*
+
+# Out file
+TSLibrary/checkpoints/*
+TSLibrary/results/*
+TSLibrary/test_results/*
+results/*
+
+# Model files
+saved_models/*
+
+# Log files
+logs/*
+
+# Notebook checkpoints
+.ipynb_checkpoints/*
+
+# Local TG-AWP environment and generated benchmark runs
+.venv-awp/
+.venv*/
+out/awp_*/
+*.tmp
+
+# VS Code
+.vscode/*
+
+# Ablation results
+ablation_study.ipynb
+out/ablation/plot/*
+!.gitkeep
+out/ablation/cluster/*
+!.gitkeep
+out/ablation/exp/*
+out/ablation/log.txt
+
+AdaWarp.md
+AdaWarp_Revision_Guide.md
+agent.md
+TACC_User.md 
+TACC Setup and Working Notes.md

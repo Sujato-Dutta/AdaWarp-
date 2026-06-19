@@ -1,0 +1,3 @@
+dataset,model,architecture,seed,observed_fraction,data_source,num_trajectories,num_classes,seq_len,pred_len,macro_rmse,macro_mae,elapsed_seconds,device,result_file
+ItalyPowerDemand,DLinear,tslibrary_dlinear_class_conditioned_prefix_windows,42,0.8,clean-ucr,67,2,9,5,0.9946833760192739,0.8508944462980323,8.676167488098145,cpu,out\tslibrary_neural_forecasting_smoke\results\DLinear_ItalyPowerDemand_seed42.json
+ItalyPowerDemand,PatchTST,tslibrary_patchtst_class_conditioned_prefix_windows,42,0.8,clean-ucr,67,2,9,5,0.8918313128379771,0.7846046684963833,1.6623034477233887,cpu,out\tslibrary_neural_forecasting_smoke\results\PatchTST_ItalyPowerDemand_seed42.json
