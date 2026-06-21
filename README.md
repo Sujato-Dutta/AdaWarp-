@@ -1,197 +1,265 @@
-# Motion Code
+# AdaWarp: Adaptive Warped Prototype Models for Time-Series Classification and Forecasting
 
-## I. Introduction
-In this work, we employ variational inference and stochastic process modeling to develop a framework called
-Motion Code.
+This repository contains the AdaWarp experimental codebase built on top of the original Motion Code repository. The current project studies AdaWarp as a family of models for time-series classification and forecasting:
 
-### 1. Download datasets and trained models
-The trained models for Motion Code is available in the folder `saved_models` due to their small sizes. However, for reproducibility, you need to download the datasets as we cannot store them directly in the repos due to limited storage. In addition to data, the trained attention-based benchmarking models are available
-through downloading. To download the datasets and attention-based benchmarking models, follow 3 steps:
-1. Go to the download link: https://www.swisstransfer.com/d/0acddb9e-1103-4dae-a898-52dbad433f7c and download
-the zip file. 
-   * <b>Password</b>: <b>assets_for_motion_code</b>
-   
-   Note that it can take up to 10 minutes to download the file. Additionally, the link is expired every month,
-but this repos is continuously updated and you can always check this README.md for updated link(s)
+- **AdaWarp-SGP** for short, mostly univariate, class-conditioned forecasting and classification retention. It uses sparse Gaussian-process class prototypes, bounded adaptive warps, and prefix-validated continuation dynamics.
+- **AdaWarp-MVPF** for long-term multivariate forecasting. It uses multiscale variate-patch fields with local cross-variate mixing, adaptive patch shifts, trend/residual structure, and reconstruction regularization.
 
-2. Unzip the downloaded file. Inside the file is `motion_code` folder, which contains 2 sub-folders `data` and `TSLibrary`:
-   * The `data` folder contains experiment data (basic noisy datasets, audio and parkinson data). Copy
-   this folder to the repo root (if `data` folder already exists in the repo, then copy its content over).
-   * `TSLibrary` contain 3 folders, and you need to add these 3 folders to the `TSLibrary` folder of the repo.
-   These 3 folders include:
-      * `dataset`: contains .ts version of `data` folder
-      * `checkpoints`: contains trained attention-based models
-      * `results`: contains classification results of attention-based models
-      
-3. Please make sure that you have `data`, `dataset`, `checkpoints`, and `results` downloaded and stored in
-the correct location as instructed above. Once this is done, you're ready to run tutorial notebooks and other
-notebooks in the repo.
+The original Motion Code implementation is still present and is used as a matched baseline, but the main code paths in this repository are the AdaWarp experiment runners and TACC scripts.
 
-### 2. Basic usage
-Please look at the tutorial notebook `tutorial_notebook.ipynb` to learn how to use Motion Code.
-To initialize the model, use the code:
-```python
-from motion_code import MotionCode
-model = MotionCode(m=10, Q=1, latent_dim=2, sigma_y=0.1)
+## Current TACC Pointer
+
+The matched reruns used for the current internal paper draft were run on **TACC Vista**. The working TACC path used during development was:
+
+```bash
+/work/11617/sujato_ts/vista/motion_code-master
 ```
 
-For training the Motion Code, use:
-```python
-model.fit(X_train, Y_train, labels_train, model_path)
+Important result folders on TACC are expected under that path, especially:
+
+```bash
+results/main
+results/classification
+results/motion code
+results/ltsf_5
 ```
 
-Motion Code performs both classification and forecasting.
-- For the classification task, use:
-  ```python
-  model.classify_predict(X_test, Y_test)
-  ```
-- For the forecasting task, use:
-  ```python
-  mean, covar = model.forecast_predict(test_time_horizon, label=0)
-  ```
+These result folders are intentionally not tracked by Git because they are large and environment-specific. For independent repeatability, use the GitHub commit plus the TACC pointer above, then rerun the scripts below or inspect the saved TACC result folders.
 
-All package prerequisites are given in `requirements.txt`. You can install by 
-```sh
-pip install -r requirements.txt
-```
+## What Is Included
 
-## II. Interpretable Features
-To learn how to generate interpretable features, please see `Pronunciation_Audio.ipynb` for further tutorial.
-This notebook gets the audio data, trains a Motion Code model on the data, and plots the interpretable features
-obtained from Motion Code's most informative timestamps.
+### Core AdaWarp code
 
-Here are some examples of <b>the most informative timestamps</b> features extracted from Motion Code
-that captures different underlying dynamics:
-
-Humidity sensor (MoteStrain)                 |  Temperature sensor (MoteStrain)
-:-------------------------:|:-----------------------------:
-![](out/multiple/MoteStrain0.png)  |  ![](out/multiple/MoteStrain1.png)
-
-Winter power demand (ItalyPowerDemand)              |  Spring power demand (ItalyPowerDemand)
-:-------------------------:|:-------------------------:
-![](out/multiple/ItalyPowerDemand0.png)  |  ![](out/multiple/ItalyPowerDemand1.png)
-
-Word "absortivity" (Pronunciation audio)              |  Word "anything" (Pronunciation audio) 
-:-------------------------:|:-------------------------:
-![](out/multiple/test_audio0.png)  |  ![](out/multiple/test_audio1.png)
-
-<br></br>
-
-## III. Benchmarking
-The main benchmark file is `benchmarks.py`.
-For benchmarking models, we consider two types: 
-* Non attention-based and our model
-* Attention-based model such as Informer or Autoformer
-
-You can get all classification benchmarks in a highlighted manner by running the notebook `collect_all_benchmarks.ipynb`. Once the run is completed, the output `out/all_classification_benchmark_results.html` will contain all classification benchmark results. To further doing more customize steps, you can follow additional instructions below:
-
-### 2. Non Attention-Based Method
-#### Running Benchmarks:
-1. Classification benchmarking on basic dataset with noise:
-   ```sh
-   python benchmarks.py --dataset_type="basics" --load_existing_model=True --load_existing_data=True --output_path="out/classify_basics.csv"
-   ```
-2. Forecasting benchmarking on basic dataset with noise:
-   ```sh
-   python benchmarks.py --dataset_type="basics" --forecast=True --load_existing_model=True --load_existing_data=True --output_path="out/forecast_basics.csv"
-   ```
-3. Classification and forecasting benchmarking on (Pronunciation) Audio dataset:
-   ```sh
-   python benchmarks.py --dataset_type="pronunciation" --load_existing_model=True --load_existing_data=True --output_path="out/classify_pronunciation.csv"
-   python benchmarks.py --dataset_type="pronunciation" --forecast=True --load_existing_model=True --load_existing_data=True --output_path="out/forecast_pronunciation.csv"
-   ```
-4. Benchmarking on Parkinson data for either PD setting 1 or PD setting 2:
-   ```sh
-   python benchmarks.py --dataset_type="parkinson_1" --load_existing_model=True --output_path="out/classify_parkinson_1.csv"
-   python benchmarks.py --dataset_type="parkinson_2" --load_existing_model=True --output_path="out/classify_parkinson_2.csv"
-   ```
-
-### 3. Attention-Based Method
-We will use the Time Series Library ([TSLibrary](https://github.com/thuml/Time-Series-Library/)), stored in the `TSLibrary` folder.
-To rerun all training, execute the script:
-```sh
-bash TSLibrary/attention_benchmark.sh
-```
-For efficiency, it is recommended to use existing (already) trained models and run `collect_all_benchmarks.ipynb` to get the benchmark results.
-
-### 4. Hyperparameter Details
-#### Classification:
-- **DTW:** `distance="dtw"`
-- **TSF:** `n_estimators=100`
-- **BOSS-E:** `max_ensemble_size=3`
-- **Shapelet:** `estimator=RotationForest(n_estimators=3)`, `n_shapelet_samples=100`, `max_shapelets=10`, `batch_size=20`
-- **SVC:** `kernel=mean_gaussian_tskernel`
-- **LSTM-FCN:** `n_epochs=200`
-- **Rocket:** `num_kernels=500`
-- **Hive-Cote 2:** `time_limit_in_minutes=0.2`
-- **Attention-based parameters**: Refer to `TSLibrary/attention_benchmark.sh`
-
-#### Forecasting:
-- **Exponential Smoothing:** `trend="add"`, `seasonal="additive"`, `sp=12`
-- **ARIMA:** `order=(1, 1, 0)`, `seasonal_order=(0, 1, 0, 12)`
-- **State-space:** `level="local linear trend"`, `freq_seasonal=[{"period": 12, "harmonics": 10}]`
-- **TBATS:** `use_box_cox=False`, `use_trend=False`, `use_damped_trend=False`, `sp=12`, `use_arma_errors=False`, `n_jobs=1`
-
-## IV. Visualization
-The main visualization file is `visualize.py`.
-
-### 1. Motion Code Interpretability
-To extract interpretable features from Motion Code, run:
-```sh
-python visualize.py --type="classify_motion_code" --dataset="PD setting 2"
-```
-Change the dataset argument as needed (e.g., `Pronunciation Audio`, `PD setting 1`, `PD setting 2`).
-
-### 2. Forecasting Visualization
-1. To visualize forecasting with mean and variance:
-   ```sh
-   python visualize.py --type="forecast_mean_var" --dataset="ItalyPowerDemand"
-   ```
-2. To visualize forecasting with informative timestamps:
-   ```sh
-   python visualize.py --type="forecast_motion_code" --dataset="ItalyPowerDemand"
-   ```
-
-## V. File Structure
 ```text
-.
-├── data/                         # Contains datasets for training and evaluation
-│   ├── basics/                   # Synthetic datasets with noise
-│   ├── audio/                    # Pronunciation audio data
-│   └── parkinson/                # Parkinson sensor data
-│
-├── saved_models/                 # Pretrained Motion Code models
-│
-├── out/                        # All experiment outputs
-│   ├── multiple/               # Interpretability visualizations
-│   ├── ablation/               # Ablation study results
-│   │   └── ablation_accuracy_results.csv
-│   ├── classify_*.csv          # Classification benchmark results
-│
-├── motion_code.py                # Core Motion Code model
-├── motion_code_utils.py          # Supporting functions for model logic
-├── sparse_gp.py                  # Sparse Gaussian Process backend
-│
-├── ablation.py                   # Main script for running ablation experiments
-├── ablation_utils.py             # Helper functions for ablation
-│
-├── data_processing.py            # General dataset preprocessing
-├── parkinson_data_processing.py  # Parkinson-specific preprocessing
-├── utils.py                      # Shared utility functions
-│
-├── benchmarks.py                 # Non-attention benchmark execution
-├── collect_all_benchmarks.ipynb  # Summary of all benchmark results
-│
-├── visualize.py                  # Generates interpretability/forecast visualizations
-│
-├── tutorial_notebook.ipynb       # Core tutorial notebook (placed at top level)
-│
-├── notebooks/                    # Additional notebooks
-│   ├── Pronunciation_Audio.ipynb     # Interpretable features from audio sequences
-│   └── MotionCodeTSC_create.ipynb    # Converts `.npy` files into `.ts` format
-│
-└── TSLibrary/                   # Time-Series Library for attention-based baselines
-    ├── attention_benchmark.sh   # Run all attention-based benchmarks
-    ├── dataset/                 # Benchmark-ready datasets (.ts format)
-    ├── checkpoints/             # Pretrained attention model checkpoints
-    └── results/                 # Outputs from attention-based models
+awp_motion_code.py                  # AdaWarp-SGP / short-protocol model
+awp_forecasting_utils.py            # prefix-to-suffix continuation heads and forecast utilities
+awp_datasets.py                     # dataset loading helpers for short protocols
+adawarp_neural_baselines.py         # repo-native neural baselines including VPNet/AdaWarp-VPF
+adawarp_mvpf.py                     # AdaWarp-MVPF long-term forecasting model
+adawarp_experiment_utils.py         # shared experiment utilities and result writing
+```
+
+### Main experiment runners
+
+```text
+benchmark_adawarp_protocol_baselines.py   # short class-conditioned forecasting baselines and ablations
+benchmark_awp_motion_code.py              # AdaWarp-SGP classification/forecasting entry point
+benchmark_motion_code_forecasting.py      # matched original Motion Code forecasting rerun
+benchmark_motion_code_classification.py   # matched original Motion Code classification rerun
+benchmark_modern_tsc_classifiers.py       # MiniROCKET, MultiROCKET, Hydra matched classification reruns
+benchmark_tslibrary_neural_forecasting.py # TSLibrary neural forecasting bridge
+benchmark_custom_neural_ltsf.py           # custom neural LTSF baselines
+benchmark_adawarp_mvpf_ltsf.py            # AdaWarp-MVPF LTSF runs
+benchmark_adawarp_mvpf_ablation.py        # AdaWarp-MVPF LTSF ablations
+aggregate_adawarp_experiments.py          # aggregate matched experiment results
+aggregate_adawarp_mvpf_ablations.py       # aggregate MVPF ablation results
+```
+
+### Configs
+
+```text
+configs/motioncode_protocol/default.json       # short prefix-to-suffix protocol
+configs/classification_retention/default.json  # classification retention protocol
+configs/ltsf_main5/default.json                # ETTh1/ETTh2/Weather/Electricity/Traffic LTSF protocol
+configs/ablations/default.json                 # short-protocol ablation plan
+configs/baselines/default.json                 # baseline registry
+```
+
+### TACC scripts
+
+```text
+scripts/tacc/setup_env.sh                    # conservative TACC virtualenv setup
+scripts/tacc/run_motioncode_protocol.sh      # short AdaWarp-SGP + protocol baselines
+scripts/tacc/run_classification_retention.sh # AdaWarp/Motion Code/TSLibrary classification reruns
+scripts/tacc/run_ablation_suite.sh           # short-protocol ablations
+scripts/tacc/run_ltsf_single_model.sh        # one LTSF model per job
+scripts/tacc/submit_ltsf_by_model.sh         # submit LTSF baseline jobs by model
+scripts/tacc/run_adawarp_mvpf_ltsf.sh        # AdaWarp-MVPF LTSF for one dataset/model job
+scripts/tacc/submit_adawarp_mvpf_by_dataset.sh
+scripts/tacc/run_adawarp_mvpf_ablation.sh
+scripts/tacc/submit_adawarp_mvpf_ablations.sh
+scripts/tacc/aggregate_all.sh
+scripts/tacc/aggregate_ltsf_by_model.py
+```
+
+## Data Layout
+
+Datasets are not committed. The expected local/TACC layout is:
+
+```text
+data/                         # short protocol datasets
+TSLibrary/dataset/             # TSLibrary classification/LTSF datasets
+TSLibrary/dataset/ETT-small/    # ETTh1, ETTh2, ETTm1, ETTm2 when used
+TSLibrary/dataset/weather/      # weather.csv
+TSLibrary/dataset/LR_Datasets/  # long-range CSV copies used by some runners
+```
+
+The following paths are ignored by Git:
+
+```text
+data/*
+TSLibrary/dataset/*
+TSLibrary/checkpoints/*
+TSLibrary/results/*
+results/*
+out/*
+logs/*
+paper/
+```
+
+## Local Setup
+
+For quick CPU smoke checks on a local machine:
+
+```bash
+python -m venv .venv-adawarp
+.venv-adawarp\Scripts\activate      # Windows cmd/powershell style may differ
+pip install -r requirements.txt
+pip install -r requirements-tacc-extra.txt
+```
+
+The full neural runs are intended for TACC/GPU. Local CPU runs are useful only for import checks, small smoke tests, and result aggregation.
+
+## TACC Setup Notes
+
+The TACC environment should not blindly overwrite cluster-provided accelerator packages. In particular, avoid forcing new Torch, CUDA, NumPy, or JAX versions unless the module/container choice has been checked.
+
+A typical Vista setup was:
+
+```bash
+cd $WORK/motion_code-master
+module load gcc/14.2.0 cuda/12.6 python3/3.11.8
+python3 -m venv --system-site-packages .venv-adawarp
+source .venv-adawarp/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements-tacc-extra.txt
+```
+
+Then verify the accelerator stack from an allocated GPU job, not only from a login node:
+
+```bash
+python - <<'PY'
+import torch
+print('torch', torch.__version__)
+print('cuda build', torch.version.cuda)
+print('cuda available', torch.cuda.is_available())
+if torch.cuda.is_available():
+    print(torch.cuda.get_device_name(0))
+PY
+```
+
+## Reproducing the Main Experiments
+
+Set an output root before running jobs:
+
+```bash
+export ADAWARP_OUTPUT_ROOT=$WORK/motion_code-master/results/<run_name>
+export ADAWARP_DEVICE=cuda
+```
+
+### 1. Short class-conditioned forecasting
+
+```bash
+export ADAWARP_EPOCHS=50
+export ADAWARP_STEPS_PER_EPOCH=4
+export ADAWARP_SEEDS="42 43 44 45 46"
+export ADAWARP_PREFIX_FRACTIONS="0.8 0.6"
+bash scripts/tacc/run_motioncode_protocol.sh
+bash scripts/tacc/aggregate_all.sh
+```
+
+Matched original Motion Code reruns require JAX. If JAX is unavailable or unstable, document the omission and rerun once the environment is fixed.
+
+### 2. Classification retention
+
+```bash
+export ADAWARP_SEEDS="42"
+bash scripts/tacc/run_classification_retention.sh
+bash scripts/tacc/aggregate_all.sh
+```
+
+Modern scalable TSC methods such as MiniROCKET, MultiROCKET, and Hydra require `aeon` or compatible `sktime` implementations. InceptionTime usually requires TensorFlow/Keras. If a required package is missing, the missing row should be audited rather than silently replaced.
+
+### 3. Long-term forecasting baselines
+
+The LTSF panel uses ETTh1, ETTh2, Weather, Electricity, and Traffic at horizons 96, 192, 336, and 720. To run one model per job:
+
+```bash
+export ADAWARP_LTSF_MODELS="DLinear PatchTST TimesNet iTransformer TimeMixer FEDformer VPNet"
+bash scripts/tacc/submit_ltsf_by_model.sh
+```
+
+### 4. AdaWarp-MVPF long-term forecasting
+
+```bash
+bash scripts/tacc/submit_adawarp_mvpf_by_dataset.sh
+```
+
+Aggregate after jobs complete:
+
+```bash
+bash scripts/tacc/aggregate_all.sh
+python scripts/tacc/aggregate_ltsf_by_model.py --root results/ltsf_5
+```
+
+### 5. AdaWarp-MVPF ablations
+
+```bash
+bash scripts/tacc/submit_adawarp_mvpf_ablations.sh
+```
+
+Then aggregate:
+
+```bash
+python aggregate_adawarp_mvpf_ablations.py --root results/ltsf_5/AdaWarp-MVPF/ablations
+```
+
+## Current Evidence Summary
+
+The current matched result set supports the following conservative claims:
+
+- **Short class-conditioned forecasting:** AdaWarp-SGP has the best mean rank across the matched short-protocol comparator panel and improves over the matched Motion Code rerun on 9/10 datasets.
+- **Classification:** AdaWarp-SGP retains Motion Code-style classification performance but is not presented as a new classification SOTA result.
+- **Long-term forecasting:** AdaWarp-MVPF is competitive against matched neural baselines on ETTh1, ETTh2, Weather, Electricity, and Traffic. It has strong rank/win behavior, while PatchTST remains strongest by some raw mean-error summaries.
+- **Ablations:** Dynamics variants are ablations only. They are used to test whether prefix-validated continuation dynamics explain the short forecasting gain and should not be treated as main external baselines.
+
+All final claims should come from matched reruns under `results/`, not from stale `out/` files, released-paper values, or old TSLibrary result folders.
+
+## Result Provenance
+
+Expected matched result locations:
+
+```text
+results/main/metrics/                         # short protocol AdaWarp and baselines
+results/motion code/metrics/                  # matched original Motion Code reruns
+results/classification/metrics/               # AdaWarp + TSLibrary classification reruns
+results/classification/rocket_hydra/metrics/  # MiniROCKET/MultiROCKET/Hydra reruns
+results/ltsf_5/                               # LTSF baselines and AdaWarp-MVPF
+results/ablations/                            # short-protocol ablations
+```
+
+Because `results/` is ignored, a reviewer or another student should either use the TACC pointer above or rerun the jobs using the scripts in `scripts/tacc/`.
+
+## Notes for Independent Checkers
+
+1. Confirm the Git commit hash.
+2. Confirm the TACC working directory.
+3. Confirm the loaded modules and Python environment.
+4. Confirm that `results/` paths are generated by matched reruns.
+5. Confirm that short-protocol neural windows do not cross into final suffixes.
+6. Confirm that dynamics variants are reported only as ablations.
+7. Confirm that paper-facing tables are generated from matched CSVs, not stale artifacts.
+
+## Legacy Motion Code Files
+
+The original Motion Code files remain available for baseline reruns and backward compatibility:
+
+```text
+motion_code.py
+motion_code_utils.py
+sparse_gp.py
+benchmarks.py
+visualize.py
+```
+
+For new AdaWarp experiments, prefer the AdaWarp scripts and configs listed above.

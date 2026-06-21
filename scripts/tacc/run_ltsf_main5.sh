@@ -11,7 +11,7 @@ fi
 DATASETS_DEFAULT="ETTh1 ETTh2 Weather Electricity Traffic"
 HORIZONS_DEFAULT="96 192 336 720"
 SEEDS_DEFAULT="42"
-MODELS_DEFAULT="AdaWarp-U AdaWarp-Global AdaWarp-Cluster persistence seasonal_naive"
+MODELS_DEFAULT="AdaWarp-U AdaWarp-Global AdaWarp-Cluster"
 
 read -r -a DATASETS <<< "${ADAWARP_LTSF_DATASETS:-$DATASETS_DEFAULT}"
 read -r -a HORIZONS <<< "${ADAWARP_LTSF_HORIZONS:-$HORIZONS_DEFAULT}"
@@ -36,7 +36,7 @@ if [[ "${ADAWARP_RUN_TSLIB_LTSF:-1}" == "1" ]]; then
     --datasets "${DATASETS[@]}" \
     --horizons "${HORIZONS[@]}" \
     --seeds "${SEEDS[@]}" \
-    --models ${ADAWARP_TSLIB_LTSF_MODELS:-DLinear PatchTST TimesNet iTransformer TimeMixer Autoformer FEDformer Informer ETSformer Pyraformer} \
+    --models ${ADAWARP_TSLIB_LTSF_MODELS:-DLinear PatchTST TimesNet iTransformer TimeMixer FEDformer} \
     --train-epochs "${ADAWARP_TSLIB_EPOCHS:-10}" \
     --batch-size "${ADAWARP_TSLIB_BATCH_SIZE:-32}" \
     --output-root "$OUTPUT_ROOT"
@@ -47,7 +47,7 @@ if [[ "${ADAWARP_RUN_CUSTOM_LTSF:-1}" == "1" ]]; then
     --datasets "${DATASETS[@]}" \
     --horizons "${HORIZONS[@]}" \
     --seeds "${SEEDS[@]}" \
-    --models ${ADAWARP_CUSTOM_LTSF_MODELS:-NLinear N-BEATS N-HiTS VPNet} \
+    --models ${ADAWARP_CUSTOM_LTSF_MODELS:-VPNet} \
     --epochs "${ADAWARP_CUSTOM_LTSF_EPOCHS:-10}" \
     --batch-size "${ADAWARP_CUSTOM_LTSF_BATCH_SIZE:-16}" \
     --eval-batch-size "${ADAWARP_CUSTOM_LTSF_EVAL_BATCH_SIZE:-16}" \

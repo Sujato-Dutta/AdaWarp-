@@ -86,7 +86,7 @@ out/ablation/exp/*
 out/ablation/log.txt
 
 AdaWarp.md
-AdaWarp_Revision_Guide.md
+AdaWarp_Guide.md
 agent.md
-TACC_User.md 
-TACC Setup and Working Notes.md
+TACC Setup.md
+paper/
